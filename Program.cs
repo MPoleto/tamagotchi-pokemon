@@ -1,39 +1,249 @@
-﻿using System.Text.Json;
-using bichinho_virtual_pokemon_csharp;
+﻿using bichinho_virtual_pokemon_csharp;
 
+#nullable disable
+
+string url = "https://pokeapi.co/api/v2/pokemon/";
 using HttpClient client = new();
-//var url = "https://pokeapi.co/api/v2/pokemon/";
+List<Pokemon> VirtualPets = new();
 
-await GetPokemonAPIAsync(client);
+await PokemonAPI.GetPokemonAsync(client, url, VirtualPets);
+
+List<Pokemon> MyVirtualPets = new();
 
 
-static async Task GetPokemonAPIAsync(HttpClient client)
+Console.Clear();
+Console.WriteLine("\nBEM-VINDO(A)!!!");
+Console.WriteLine("\nQual o seu nome?");
+var gamer = new User();
+bool invalid = true;
+
+while (invalid)
 {
-  var number = new Random();
+  gamer.UserName = Console.ReadLine().Trim();
 
-  for (int i = 1; i < 5; i++)
+  if(gamer.UserName.Length > 0) invalid = false;
+  else Console.WriteLine("Nome inválido. Por favor, adicione um nome.");
+  
+}
+
+Console.WriteLine($"\nOlá, {gamer.UserName}!\n");
+
+MenuTamagochi();
+
+void MenuTamagochi()
+{
+  try
   {
-    var id = number.Next(1, 81);
-    var json = await client.GetStringAsync($"https://pokeapi.co/api/v2/pokemon/{id:N0}");
-    ShowCharacteristics(json);
+    char option = '0';
+    while (option != '3')
+    {
+      Console.Clear();
+      Console.WriteLine("______________________ MENU ______________________");
+      Console.WriteLine($"\n{gamer.UserName}, você deseja:");
+      Console.WriteLine("1 - Adotar um mascote");
+      Console.WriteLine("2 - Ver seus mascotes");
+      Console.WriteLine("3 - Sair");
+      Console.Write("\nDigite a opção desejada: ");
+
+      try
+      {
+        option = Console.ReadLine()[0];
+      }
+      catch (Exception ex)
+      {
+        throw new Exception(ex.Message);
+      }
+
+      Console.WriteLine("\n__________________________________________________");
+
+      switch (option)
+      {
+        case '1':
+          ChooseVirtualPet();
+          break;
+        case '2':
+          ShowMyPets();
+          break;
+        case '3':
+          CloseApplication();
+          break;
+        default:
+          Console.WriteLine("Opção inválida. Tente novamente.");
+          break;
+      }
+    }
+  }
+  catch (System.Exception ex)
+  {
+    throw new Exception(ex.Message);
+  }
+}
+
+void CloseApplication()
+{
+  Console.WriteLine("\n\n... Aplicação encerrada ...\n");
+}
+
+void ShowMyPets()
+{
+  Console.Clear();
+ 
+  Console.WriteLine("_________________ MEUS  MASCOTES _________________\n");
+
+  if (MyVirtualPets.Count == 0)
+  {
+    Console.WriteLine("\nVocê ainda não adotou nenhum mascote.\n");
+  }
+  foreach(var pet in MyVirtualPets)
+  {
+    Console.WriteLine(pet.PokemonName.ToUpper());
+  }
+
+  Console.WriteLine("__________________________________________________");
+  Console.WriteLine("\n\nPressione uma tecla para continuar...");
+  Console.ReadKey();
+
+}
+
+void ChooseVirtualPet()
+{
+  Console.Clear();
+  Console.WriteLine("_________________ ADOTAR MASCOTE _________________");
+  Console.WriteLine($"\n{gamer.UserName}, escolha uma espécie:");
+
+  foreach (var pet in VirtualPets)
+  {
+    Console.WriteLine(pet.PokemonName.ToUpper());
+  }
+
+  Console.WriteLine("\nX - Voltar\n");
+
+  var notFound = true;
+
+  while (notFound)
+  {
+    var petSelected = Console.ReadLine().ToUpper().Trim();
+
+    foreach (var pet in VirtualPets)
+    {
+      if(pet.PokemonName.ToUpper() == petSelected)
+      {
+        notFound = false;
+        SubmenuAdoption(petSelected);
+      } 
+    }
+
+    if (petSelected.StartsWith("X") || petSelected.StartsWith("x"))
+    {
+      //notFound = false;
+      break;
+    }
+
+    Console.WriteLine("Mascote não encontrado. Verifique o nome e digite novamente.\n");
     
   }
 }
 
-static void ShowCharacteristics(string json)
+void SubmenuAdoption(string virtualPet)
 {
-  var result = JsonSerializer.Deserialize<Pokemon>(json);
-    
-    Console.WriteLine($"ID: {result.ID}");
-    Console.WriteLine($"Nome: {result.Name.ToUpper()}");
-    Console.WriteLine($"Altura: {result.Height}");
-    Console.WriteLine($"Experiência inicial: {result.Experience}");
-    Console.WriteLine($"Habilidades:");
-
-    foreach (var item in result.Abilities)
+  try
+  {
+    char option = '0';
+    while (option != '3')
     {
-      Console.WriteLine($"{item.Ability.Name.ToUpper()}");
+      Console.Clear();
+      Console.WriteLine("__________________________________________________\n");
+      Console.WriteLine($"{gamer.UserName}, você deseja:");
+      Console.WriteLine($"1 - Saber mais sobre o {virtualPet}");
+      Console.WriteLine($"2 - Adotar o {virtualPet}");
+      Console.WriteLine("3 - Voltar");
+      Console.Write("\nDigite a opção desejada: ");
+
+      try
+      {
+        option = Console.ReadLine()[0];
+      }
+      catch (Exception ex)
+      {
+        throw new Exception(ex.Message);
+      }
+      
+      Console.WriteLine("\n__________________________________________________");
+
+      switch (option)
+      {
+        case '1':
+          AboutVirtualPet(virtualPet);
+          break;
+        case '2':
+          AdoptVirtualPet(virtualPet);
+          break;
+        case '3':
+          ChooseVirtualPet();
+          break;
+        default:
+          Console.WriteLine("Opção inválida.");
+          break;
+      }
+    }
+  }
+  catch (System.Exception ex)
+  {
+    throw new Exception(ex.Message);
+  }
+}
+
+void AboutVirtualPet(string virtualPet)
+{
+  Console.Clear();
+
+  Console.WriteLine("__________________________________________________\n\n");
+
+  foreach (var pet in VirtualPets)
+  {
+    if (pet.PokemonName.ToUpper() == virtualPet)
+    {
+      Console.WriteLine($"Nome: {pet.PokemonName.ToUpper()}");
+      Console.WriteLine($"ID: {pet.ID}");
+      
+      Console.Write($"Tipo(s): ");
+      foreach (var type in pet.Types)
+      {
+          Console.Write($"{type.Type.TypeName} ");
+      
+      }
+      Console.WriteLine($"\nExperiência inicial: {pet.Experience}");
+      Console.Write($"Habilidades: ");
+      foreach (var ability in pet.Abilities)
+      {
+          Console.Write($"{ability.Ability.AbilityName} ");
+      
+      }
+    }
+  }
+ 
+  Console.WriteLine("\n\n__________________________________________________");
+  Console.WriteLine("\n\nPressione uma tecla para continuar...");
+  Console.ReadKey();
+}
+
+void AdoptVirtualPet(string virtualPet)
+{
+  foreach (var pet in VirtualPets)
+  {
+    if (pet.PokemonName.ToUpper() == virtualPet)
+    {
+      MyVirtualPets.Add(pet);
+
+      Console.WriteLine($"\n\n{virtualPet} FOI ADOTADO COM SUCESSO!");
       
     }
-    Console.WriteLine();
+  }
+
+  Console.WriteLine("\n__________________________________________________");
+  Console.WriteLine("\n\nPressione uma tecla para continuar...");
+  Console.ReadKey();
 }
+
+
+
