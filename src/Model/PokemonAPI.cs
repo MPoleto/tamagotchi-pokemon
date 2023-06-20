@@ -4,11 +4,12 @@ namespace bichinho_virtual_pokemon_csharp
 {
     public static class PokemonAPI
     {
-        public static async Task<List<Pokemon>> GetPokemonAsync(HttpClient client, string url, List<Pokemon> list)
+        private static HashSet<Pokemon> VirtualPets = new();
+        public static async Task<HashSet<Pokemon>> GetPokemonAsync(HttpClient client, string url)
         {
             var number = new Random();
 
-            for (int i = 1; i < 6; i++)
+            while (VirtualPets.Count <= 6)
             {
                 var id = number.Next(1, 81);
 
@@ -16,11 +17,10 @@ namespace bichinho_virtual_pokemon_csharp
                 
                 var pokemon = JsonSerializer.Deserialize<Pokemon>(json);
 
-                list.Add(pokemon);
-                //Console.WriteLine(pokemon.PokemonName.ToUpper());
+                VirtualPets.Add(pokemon);
             }
 
-            return list;
+            return VirtualPets;
         }
     }
 }

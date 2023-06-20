@@ -10,4 +10,4 @@
   - Classe do usuário
   - Identificar o usuário
   - Menu principal com as opções conhecer os pokemons e ver os nomes dos que já foram adotados.
-  
+6º Organizar métodos em classes, padrão MVC
