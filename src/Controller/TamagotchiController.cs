@@ -3,18 +3,21 @@ namespace bichinho_virtual_pokemon_csharp
   public class TamagotchiController
   {
     private readonly MessageView _message;
+    private readonly PokemonService _service;
+    private Pokemon myPet;
 
     public TamagotchiController(MessageView message)
     {
       this._message = message;
+      this._service = new PokemonService();
+      this.myPet = new();
     }
 
     public void MenuTamagotchi(HashSet<Pokemon> VirtualPets)
     {
       try
-      {
+      {        
         var gamer = _message.Welcome();
-
         char option = '0';
         while (option != '3')
         {
@@ -29,7 +32,7 @@ namespace bichinho_virtual_pokemon_csharp
               ChooseVirtualPet(gamer, VirtualPets);
               break;
             case '2':
-              _message.ShowMyPets();
+              MyVirtualPet(gamer, VirtualPets);
               break;
             case '3':
               _message.CloseApplication();
@@ -42,11 +45,11 @@ namespace bichinho_virtual_pokemon_csharp
       }
       catch (Exception ex)
       {
-        throw new Exception($"\nAplicação encerrada incorretamente. {ex.Message}");
+        throw new Exception($"{ex.Message} Aplicação encerrada incorretamente.");
       }
     }
 
-    public void ChooseVirtualPet(string gamer, HashSet<Pokemon> VirtualPets)
+    private void ChooseVirtualPet(string gamer, HashSet<Pokemon> VirtualPets)
     {
       Console.Clear();
       _message.PetsForAdoption(gamer, VirtualPets);
@@ -66,7 +69,7 @@ namespace bichinho_virtual_pokemon_csharp
           }
         }
 
-        if (petSelected.StartsWith("X") || petSelected.StartsWith("x"))
+        if (petSelected.StartsWith("X"))
         {
           break;
         }
@@ -76,8 +79,8 @@ namespace bichinho_virtual_pokemon_csharp
       }
     }
 
-    void MenuAdoption(string gamer, string virtualPet, HashSet<Pokemon> VirtualPets)
-    {
+    private void MenuAdoption(string gamer, string virtualPet, HashSet<Pokemon> VirtualPets)
+    { 
       try
       {
         char option = '0';
@@ -94,10 +97,64 @@ namespace bichinho_virtual_pokemon_csharp
               _message.AboutVirtualPet(virtualPet, VirtualPets);
               break;
             case '2':
-              _message.AdoptVirtualPet(virtualPet, VirtualPets);
+              AdoptVirtualPet(virtualPet, VirtualPets);
               break;
             case '3':
-              ChooseVirtualPet(gamer, VirtualPets);
+              break;
+            default:
+              Console.WriteLine("Opção inválida.");
+              break;
+          }
+        }
+      }
+      catch (Exception ex)
+      {
+        throw new Exception($"\nAplicação encerrada incorretamente. {ex.Message}");
+      }
+    }
+
+    private void AdoptVirtualPet(string virtualPet, HashSet<Pokemon> VirtualPets)
+    {
+      Console.WriteLine("\n__________________________________________________");
+      
+      myPet = _service.FindPokemon(virtualPet, myPet, VirtualPets);
+
+      _message.PressToContinue();      
+    }
+
+    private void MyVirtualPet(string gamer, HashSet<Pokemon> VirtualPets)
+    {
+      try
+      {
+        char option = '0';
+        while (option != 'X')
+        {
+          Console.Clear();
+          _message.MyPetMenu(gamer, myPet);
+
+          option = Console.ReadLine().ToUpper()[0];
+
+          Console.WriteLine("\n__________________________________________________\n\n");
+
+          switch (option)
+          {
+            case '1':
+              _service.StatusMyPokemon(myPet);
+              _message.PressToContinue();
+              break;
+            case '2':
+              _service.FeedMyPet(myPet);
+              _message.PressToContinue();
+              break;
+            case '3':
+              _service.PlayMyPet(myPet);
+              _message.PressToContinue();
+              break;
+            case '4':
+              _service.SleepMyPet(myPet);
+              _message.PressToContinue();
+              break;
+            case '5':
               break;
             default:
               Console.WriteLine("Opção inválida.");

@@ -11,3 +11,6 @@
   - Identificar o usuário
   - Menu principal com as opções conhecer os pokemons e ver os nomes dos que já foram adotados.
 6º Organizar métodos em classes, padrão MVC
+7º Alterar para adotar somente um pokemon
+8º Criar menu e métodos de interação com o pokemon adotado.
+9º Remover classe usuário.

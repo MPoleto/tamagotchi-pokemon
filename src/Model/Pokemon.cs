@@ -24,5 +24,18 @@ namespace bichinho_virtual_pokemon_csharp
         [property: JsonPropertyName("abilities")]
         public List<Abilities> Abilities { get; set; }
 
+        public int Hunger { get; set; }
+
+        public int Play { get; set; }
+
+        public int Sleep { get; set; }
+
+        public Pokemon()
+        {
+            this.Hunger = 6;
+            this.Play = 6;
+            this.Sleep = 6;
+        }
+
     }
 }

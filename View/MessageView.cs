@@ -2,12 +2,12 @@ namespace bichinho_virtual_pokemon_csharp
 {
   public class MessageView
   {
-    private HashSet<Pokemon> MyVirtualPets = new();
+    
     public string Welcome()
     {
       Console.WriteLine("\nBEM-VINDO(A)!!!");
       Console.WriteLine("\nQual o seu nome?");
-      var gamer = new User().UserName;
+      string gamer = "";
       bool invalid = true;
 
       while (invalid)
@@ -29,31 +29,12 @@ namespace bichinho_virtual_pokemon_csharp
       Console.WriteLine("______________________ MENU ______________________");
       Console.WriteLine($"\n{gamer}, você deseja:");
       Console.WriteLine("1 - Adotar um mascote");
-      Console.WriteLine("2 - Ver seus mascotes");
+      Console.WriteLine("2 - Meu mascote");
       Console.WriteLine("3 - Sair");
+      Console.WriteLine();
       Console.Write("\nDigite a opção desejada: ");
     }
-
-    public void ShowMyPets()
-    {
-      Console.Clear();
-
-      Console.WriteLine("_________________ MEUS  MASCOTES _________________\n");
-
-      if (MyVirtualPets.Count == 0)
-      {
-        Console.WriteLine("\nVocê ainda não adotou nenhum mascote.\n");
-      }
-      foreach (var pet in MyVirtualPets)
-      {
-        Console.WriteLine(pet.PokemonName.ToUpper());
-      }
-
-      Console.WriteLine("__________________________________________________");
-      Console.WriteLine("\n\nPressione uma tecla para continuar...");
-      Console.ReadKey();
-    }
-
+    
     public void PetsForAdoption(string gamer, HashSet<Pokemon> VirtualPets)
     {
       Console.WriteLine("_________________ ADOTAR MASCOTE _________________");
@@ -69,7 +50,7 @@ namespace bichinho_virtual_pokemon_csharp
 
     public void SubmenuPet(string gamer, string virtualPet)
     {
-      //Console.WriteLine("__________________________________________________\n");
+      Console.WriteLine("__________________________________________________\n");
       Console.WriteLine($"{gamer}, você deseja:");
       Console.WriteLine($"1 - Saber mais sobre o {virtualPet}");
       Console.WriteLine($"2 - Adotar o {virtualPet}");
@@ -102,35 +83,36 @@ namespace bichinho_virtual_pokemon_csharp
           {
             Console.Write($"{ability.Ability.AbilityName} ");
           }
+          Console.Write("\n");
         }
       }
-      Console.WriteLine("\n\n__________________________________________________");
-      Console.WriteLine("\n\nPressione uma tecla para continuar...");
-      Console.ReadKey();
+      PressToContinue();
     }
 
-    public void AdoptVirtualPet(string virtualPet, HashSet<Pokemon> VirtualPets)
+    public void MyPetMenu(string gamer, Pokemon myPet)
     {
-      Console.WriteLine("\n__________________________________________________");
-      
-      foreach (var pet in VirtualPets)
+      Console.WriteLine("__________________ MEU  MASCOTE __________________\n");
+
+      // RESOLVER
+      if (myPet.PokemonName == null)
       {
-        if (pet.PokemonName.ToUpper() == virtualPet)
-        {
-          if (MyVirtualPets.Contains(pet))
-          {
-            Console.WriteLine($"\n\nVocê já adotou o {virtualPet}, escolha outra espécie!");
-
-          }
-          else
-          {
-            MyVirtualPets.Add(pet);
-            Console.WriteLine($"\n\n{virtualPet} FOI ADOTADO COM SUCESSO!");
-          }
-
-        }
+        Console.WriteLine("\nVocê ainda não adotou um mascote.");
+        Console.WriteLine("\nX - Voltar\n");
       }
+      else
+      {
+        Console.WriteLine($"{gamer}, você deseja:");
+        Console.WriteLine($"1 - Saber como está o {myPet.PokemonName.ToUpper()}");
+        Console.WriteLine($"2 - Alimentar");
+        Console.WriteLine($"3 - Brincar");
+        Console.WriteLine($"4 - Dormir");
+        Console.WriteLine("\nX - Voltar");
+        Console.Write("\nDigite a opção desejada: ");
+      }
+    }
 
+    public void PressToContinue()
+    {
       Console.WriteLine("\n__________________________________________________");
       Console.WriteLine("\n\nPressione uma tecla para continuar...");
       Console.ReadKey();
