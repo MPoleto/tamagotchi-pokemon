@@ -13,3 +13,5 @@ C:\Users\marid\Documents\Pafarmaxp\Alura\7-days-of-code\bichinho-virtual-pokemon
 C:\Users\marid\Documents\Pafarmaxp\Alura\7-days-of-code\bichinho-virtual-pokemon-csharp\obj\Debug\net6.0\bichinho-virtual-pokemon-csharp.pdb
 C:\Users\marid\Documents\Pafarmaxp\Alura\7-days-of-code\bichinho-virtual-pokemon-csharp\obj\Debug\net6.0\bichinho-virtual-pokemon-csharp.genruntimeconfig.cache
 C:\Users\marid\Documents\Pafarmaxp\Alura\7-days-of-code\bichinho-virtual-pokemon-csharp\obj\Debug\net6.0\ref\bichinho-virtual-pokemon-csharp.dll
+C:\Users\marid\Documents\Pafarmaxp\Alura\7-days-of-code\bichinho-virtual-pokemon-csharp\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\marid\Documents\Pafarmaxp\Alura\7-days-of-code\bichinho-virtual-pokemon-csharp\obj\Debug\net6.0\bichinho-virtual-pokemon-csharp.csproj.CopyComplete

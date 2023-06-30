@@ -1,4 +1,5 @@
 using System.Text.Json;
+using AutoMapper;
 
 namespace bichinho_virtual_pokemon_csharp
 {
@@ -27,7 +28,7 @@ namespace bichinho_virtual_pokemon_csharp
       return myPokemon;
     }
 
-    public void SleepMyPet(Pokemon myPokemon)
+    public void SleepMyPet(PokemonDTO myPokemon)
     {
       if (myPokemon.Sleep >= 10)
       {
@@ -46,7 +47,7 @@ namespace bichinho_virtual_pokemon_csharp
       }
     }
 
-    public void PlayMyPet(Pokemon myPokemon)
+    public void PlayMyPet(PokemonDTO myPokemon)
     {
       if (myPokemon.Play == 10)
       {
@@ -54,7 +55,7 @@ namespace bichinho_virtual_pokemon_csharp
       }
       else if (myPokemon.Hunger <= 2 || myPokemon.Sleep <= 2)
       {
-        Console.WriteLine($"{myPokemon.PokemonName} ESTÁ SEM ENERGIA PARA BRINCAR. 🥴");
+        Console.WriteLine($"{myPokemon.PokemonName} ESTÁ SEM ENERGIA PARA BRINCAR.\n\nX﹏X ");
       }
       else
       {
@@ -65,11 +66,11 @@ namespace bichinho_virtual_pokemon_csharp
         MinimumStatus(myPokemon);
         MaximumStatus(myPokemon);
 
-        Console.WriteLine($" 🤩 {myPokemon.PokemonName.ToUpper()} SE DIVERTIU BRINCANDO.");
+        Console.WriteLine($"{myPokemon.PokemonName.ToUpper()} SE DIVERTIU BRINCANDO.\n\n(★‿★)");
       }
     }
 
-    public void FeedMyPet(Pokemon myPokemon)
+    public void FeedMyPet(PokemonDTO myPokemon)
     {
       if (myPokemon.Hunger == 10)
       {
@@ -87,12 +88,10 @@ namespace bichinho_virtual_pokemon_csharp
       }
     }
 
-    public void StatusMyPokemon(Pokemon myPokemon)
+    public void StatusMyPokemon(PokemonDTO myPokemon)
     {
       Console.Clear();
       Console.WriteLine("__________________________________________________\n\n");
-
-      Console.WriteLine($"{myPokemon.Hunger} {myPokemon.Play} {myPokemon.Sleep}");
 
       if (myPokemon.Hunger > 6 && myPokemon.Play > 6 && myPokemon.Sleep > 6)
       {
@@ -110,16 +109,16 @@ namespace bichinho_virtual_pokemon_csharp
         Console.WriteLine($"\n{myPokemon.PokemonName.ToUpper()} ESTÁ BEM.");
       }
       Console.Write($"\nAlimentação:  ");
-      Barra(myPokemon.Hunger);
+      AttributeStatus(myPokemon.Hunger);
       Console.Write($"\nDiversão:     ");
-      Barra(myPokemon.Play);
+      AttributeStatus(myPokemon.Play);
       Console.Write($"\nDescanso:     ");
-      Barra(myPokemon.Sleep);
+      AttributeStatus(myPokemon.Sleep);
       
       Console.WriteLine();
     }
 
-    private void MinimumStatus(Pokemon myPokemon)
+    private void MinimumStatus(PokemonDTO myPokemon)
     {
       if (myPokemon.Sleep < 0) myPokemon.Sleep = 0;
       
@@ -128,7 +127,7 @@ namespace bichinho_virtual_pokemon_csharp
       if (myPokemon.Hunger < 0) myPokemon.Hunger = 0;  
     }
 
-    private void MaximumStatus(Pokemon myPokemon)
+    private void MaximumStatus(PokemonDTO myPokemon)
     {
       if (myPokemon.Sleep >= 10) myPokemon.Sleep = 10;
       
@@ -137,11 +136,11 @@ namespace bichinho_virtual_pokemon_csharp
       if (myPokemon.Hunger >= 10) myPokemon.Hunger = 10;  
     }
 
-    private void Barra(int prop)
+    private void AttributeStatus(int attribute)
     {
-      for (var i = 1; i <= prop; i++)
+      for (var i = 1; i <= attribute; i++)
       {
-        if (prop > 0 && prop < 4) Console.Write("\u001b[31m *\u001b[m");
+        if (attribute > 0 && attribute < 4) Console.Write("\u001b[31m *\u001b[m");
         else Console.Write("\u001b[34m *\u001b[m");
       }
     }

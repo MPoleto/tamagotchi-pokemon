@@ -1,15 +1,21 @@
+using AutoMapper;
+
 namespace bichinho_virtual_pokemon_csharp
 {
   public class TamagotchiController
   {
     private readonly MessageView _message;
     private readonly PokemonService _service;
-    private Pokemon myPet;
+    private readonly IMapper _mapper;
+    private Pokemon myPokemon;
+    private PokemonDTO myPet;
 
-    public TamagotchiController(MessageView message)
+    public TamagotchiController(MessageView message, IMapper mapper)
     {
       this._message = message;
+      this._mapper = mapper;
       this._service = new PokemonService();
+      this.myPokemon = new();
       this.myPet = new();
     }
 
@@ -109,7 +115,7 @@ namespace bichinho_virtual_pokemon_csharp
       }
       catch (Exception ex)
       {
-        throw new Exception($"\nAplicação encerrada incorretamente. {ex.Message}");
+        throw new Exception($"\n{ex.Message} Aplicação encerrada incorretamente. {ex.StackTrace}");
       }
     }
 
@@ -117,7 +123,9 @@ namespace bichinho_virtual_pokemon_csharp
     {
       Console.WriteLine("\n__________________________________________________");
       
-      myPet = _service.FindPokemon(virtualPet, myPet, VirtualPets);
+      myPokemon = _service.FindPokemon(virtualPet, myPokemon, VirtualPets);
+
+      myPet = _mapper.Map<PokemonDTO>(myPokemon); 
 
       _message.PressToContinue();      
     }

@@ -89,7 +89,7 @@ namespace bichinho_virtual_pokemon_csharp
       PressToContinue();
     }
 
-    public void MyPetMenu(string gamer, Pokemon myPet)
+    public void MyPetMenu(string gamer, PokemonDTO myPet)
     {
       Console.WriteLine("__________________ MEU  MASCOTE __________________\n");
 
