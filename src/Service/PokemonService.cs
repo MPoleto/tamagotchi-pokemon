@@ -1,6 +1,3 @@
-using System.Text.Json;
-using AutoMapper;
-
 namespace bichinho_virtual_pokemon_csharp
 {
   public class PokemonService
@@ -30,9 +27,11 @@ namespace bichinho_virtual_pokemon_csharp
 
     public void SleepMyPet(PokemonDTO myPokemon)
     {
+      Console.WriteLine("\n__________________________________________________\n\n");
+      
       if (myPokemon.Sleep >= 10)
       {
-        Console.WriteLine($"{myPokemon.PokemonName.ToUpper()} ESTÁ SEM SONO.");
+        Console.WriteLine($"{myPokemon.PokemonName.ToUpper()} ESTÁ SEM SONO.\n\no(^▽ ^)o");
       }
       else
       {
@@ -49,13 +48,15 @@ namespace bichinho_virtual_pokemon_csharp
 
     public void PlayMyPet(PokemonDTO myPokemon)
     {
+      Console.WriteLine("\n__________________________________________________\n\n");
+
       if (myPokemon.Play == 10)
       {
-        Console.WriteLine($"{myPokemon.PokemonName} NAO QUER BRINCAR AGORA.\n\no(〃＾▽＾〃)o");
+        Console.WriteLine($"{myPokemon.PokemonName.ToUpper()} NAO QUER BRINCAR AGORA.\n\no(〃＾▽ ＾〃)o");
       }
       else if (myPokemon.Hunger <= 2 || myPokemon.Sleep <= 2)
       {
-        Console.WriteLine($"{myPokemon.PokemonName} ESTÁ SEM ENERGIA PARA BRINCAR.\n\nX﹏X ");
+        Console.WriteLine($"{myPokemon.PokemonName.ToUpper()} ESTÁ SEM ENERGIA PARA BRINCAR.\n\nX﹏X ");
       }
       else
       {
@@ -66,15 +67,17 @@ namespace bichinho_virtual_pokemon_csharp
         MinimumStatus(myPokemon);
         MaximumStatus(myPokemon);
 
-        Console.WriteLine($"{myPokemon.PokemonName.ToUpper()} SE DIVERTIU BRINCANDO.\n\n(★‿★)");
+        Console.WriteLine($"{myPokemon.PokemonName.ToUpper()} SE DIVERTIU BRINCANDO.\n\n(★ ‿ ★)");
       }
     }
 
     public void FeedMyPet(PokemonDTO myPokemon)
     {
+      Console.WriteLine("\n__________________________________________________\n\n");
+
       if (myPokemon.Hunger == 10)
       {
-        Console.WriteLine($"{myPokemon.PokemonName.ToUpper()} JÁ ESTÁ CHEIO.");
+        Console.WriteLine($"{myPokemon.PokemonName.ToUpper()} JÁ ESTÁ CHEIO.\n\n(●'◡ '●)");
       }
       else
       {
@@ -84,7 +87,7 @@ namespace bichinho_virtual_pokemon_csharp
         MinimumStatus(myPokemon);
         MaximumStatus(myPokemon);
 
-        Console.WriteLine($"{myPokemon.PokemonName.ToUpper()} FOI ALIMENTADO. (╹ڡ╹ )");
+        Console.WriteLine($"{myPokemon.PokemonName.ToUpper()} FOI ALIMENTADO.\n\n(╹ڡ╹ )");
       }
     }
 
@@ -98,10 +101,15 @@ namespace bichinho_virtual_pokemon_csharp
         Console.WriteLine($"╰(*°▽ °*)╯");
         Console.WriteLine($"\n{myPokemon.PokemonName.ToUpper()} ESTÁ FELIZ.");
       }
-      else if (myPokemon.Hunger < 5 && myPokemon.Play < 5 && myPokemon.Sleep < 5)
+      else if (myPokemon.Hunger < 5 || myPokemon.Sleep < 5)
       {
         Console.WriteLine($"≡(▔﹏▔)≡");
-        Console.WriteLine($"\n{myPokemon.PokemonName.ToUpper()} ESTÁ DOENTE.");
+        Console.WriteLine($"\n{myPokemon.PokemonName.ToUpper()} NÃO ESTÁ BEM.");
+      }
+      else if (myPokemon.Play < 5)
+      {
+        Console.WriteLine($"(* ￣︿￣)");
+        Console.WriteLine($"\n{myPokemon.PokemonName.ToUpper()} ESTÁ TRISTE.");
       }
       else
       {
@@ -140,7 +148,7 @@ namespace bichinho_virtual_pokemon_csharp
     {
       for (var i = 1; i <= attribute; i++)
       {
-        if (attribute > 0 && attribute < 4) Console.Write("\u001b[31m *\u001b[m");
+        if (attribute > 0 && attribute < 5) Console.Write("\u001b[31m *\u001b[m");
         else Console.Write("\u001b[34m *\u001b[m");
       }
     }

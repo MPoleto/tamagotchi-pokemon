@@ -5,17 +5,29 @@ namespace bichinho_virtual_pokemon_csharp
     
     public string Welcome()
     {
-      Console.WriteLine("\nBEM-VINDO(A)!!!");
+      Console.WriteLine("\u001b[33m");
+      Console.WriteLine(@$"
+:::::::::::     :::     ::::    ::::      :::      ::::::::   ::::::::  :::::::::::  ::::::::  :::    ::: ::::::::::: 
+    :+:       :+: :+:   +:+:+: :+:+:+   :+: :+:   :+:    :+: :+:    :+:     :+:     :+:    :+: :+:    :+:     :+:     
+    +:+      +:+   +:+  +:+ +:+:+ +:+  +:+   +:+  +:+        +:+    +:+     +:+     +:+        +:+    +:+     +:+     
+    +#+     +#++:++#++: +#+  +:+  +#+ +#++:++#++: :#:        +#+    +:+     +#+     +#+        +#++:++#++     +#+     
+    +#+     +#+     +#+ +#+       +#+ +#+     +#+ +#+   +#+# +#+    +#+     +#+     +#+        +#+    +#+     +#+     
+    #+#     #+#     #+# #+#       #+# #+#     #+# #+#    #+# #+#    #+#     #+#     #+#    #+# #+#    #+#     #+#     
+    ###     ###     ### ###       ### ###     ###  ########   ########      ###      ########  ###    ### ###########");
+
+
+      Console.WriteLine("\u001b[m");
+      Console.WriteLine("\n\n\nBEM-VINDO(A)!!!");
       Console.WriteLine("\nQual o seu nome?");
       string gamer = "";
-      bool invalid = true;
+      var invalid = true;
 
       while (invalid)
       {
         gamer = Console.ReadLine().Trim();
 
         if (gamer.Length > 0) invalid = false;
-        else Console.WriteLine("Nome inválido. Por favor, adicione um nome.");
+        else Console.WriteLine("Inválido. Por favor, adicione um nome.");
 
       }
 
@@ -93,11 +105,9 @@ namespace bichinho_virtual_pokemon_csharp
     {
       Console.WriteLine("__________________ MEU  MASCOTE __________________\n");
 
-      // RESOLVER
       if (myPet.PokemonName == null)
       {
         Console.WriteLine("\nVocê ainda não adotou um mascote.");
-        Console.WriteLine("\nX - Voltar\n");
       }
       else
       {
@@ -106,7 +116,7 @@ namespace bichinho_virtual_pokemon_csharp
         Console.WriteLine($"2 - Alimentar");
         Console.WriteLine($"3 - Brincar");
         Console.WriteLine($"4 - Dormir");
-        Console.WriteLine("\nX - Voltar");
+        Console.WriteLine("5 - Voltar");
         Console.Write("\nDigite a opção desejada: ");
       }
     }
@@ -114,7 +124,14 @@ namespace bichinho_virtual_pokemon_csharp
     public void PressToContinue()
     {
       Console.WriteLine("\n__________________________________________________");
-      Console.WriteLine("\n\nPressione uma tecla para continuar...");
+      Console.Write("\n\nPressione uma tecla para continuar...");
+      Console.ReadKey();
+    }
+
+    public void InvalidOption()
+    {
+      Console.WriteLine("__________________________________________________");
+      Console.Write("\nOpção inválida. Tente novamente.");
       Console.ReadKey();
     }
 

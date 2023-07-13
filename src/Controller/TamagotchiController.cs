@@ -21,37 +21,30 @@ namespace bichinho_virtual_pokemon_csharp
 
     public void MenuTamagotchi(HashSet<Pokemon> VirtualPets)
     {
-      try
-      {        
-        var gamer = _message.Welcome();
-        char option = '0';
-        while (option != '3')
-        {
-          Console.Clear();
-          _message.MainMenu(gamer);
-
-          option = Console.ReadLine()[0];
-
-          switch (option)
-          {
-            case '1':
-              ChooseVirtualPet(gamer, VirtualPets);
-              break;
-            case '2':
-              MyVirtualPet(gamer, VirtualPets);
-              break;
-            case '3':
-              _message.CloseApplication();
-              break;
-            default:
-              Console.WriteLine("Opção inválida. Tente novamente.");
-              break;
-          }
-        }
-      }
-      catch (Exception ex)
+      var gamer = _message.Welcome();
+      string option = "0";
+      while (option != "3")
       {
-        throw new Exception($"{ex.Message} Aplicação encerrada incorretamente.");
+        Console.Clear();
+        _message.MainMenu(gamer);
+
+        option = Console.ReadLine().Trim();
+
+        switch (option)
+        {
+          case "1":
+            ChooseVirtualPet(gamer, VirtualPets);
+            break;
+          case "2":
+            MyVirtualPet(gamer, VirtualPets);
+            break;
+          case "3":
+            _message.CloseApplication();
+            break;
+          default:
+            _message.InvalidOption();
+            break;
+        }
       }
     }
 
@@ -79,100 +72,95 @@ namespace bichinho_virtual_pokemon_csharp
         {
           break;
         }
-
         Console.WriteLine("Mascote não encontrado. Verifique o nome e digite novamente.\n");
-
       }
     }
 
     private void MenuAdoption(string gamer, string virtualPet, HashSet<Pokemon> VirtualPets)
-    { 
-      try
+    {
+      string option = "0";
+      while (option != "3")
       {
-        char option = '0';
-        while (option != '3')
+        Console.Clear();
+        _message.SubmenuPet(gamer, virtualPet);
+
+        option = Console.ReadLine().Trim();
+
+        switch (option)
         {
-          Console.Clear();
-          _message.SubmenuPet(gamer, virtualPet);
-
-          option = Console.ReadLine()[0];
-
-          switch (option)
-          {
-            case '1':
-              _message.AboutVirtualPet(virtualPet, VirtualPets);
-              break;
-            case '2':
-              AdoptVirtualPet(virtualPet, VirtualPets);
-              break;
-            case '3':
-              break;
-            default:
-              Console.WriteLine("Opção inválida.");
-              break;
-          }
+          case "1":
+            _message.AboutVirtualPet(virtualPet, VirtualPets);
+            break;
+          case "2":
+            AdoptVirtualPet(virtualPet, VirtualPets);
+            break;
+          case "3":
+            break;
+          default:
+            _message.InvalidOption();
+            break;
         }
-      }
-      catch (Exception ex)
-      {
-        throw new Exception($"\n{ex.Message} Aplicação encerrada incorretamente. {ex.StackTrace}");
       }
     }
 
     private void AdoptVirtualPet(string virtualPet, HashSet<Pokemon> VirtualPets)
     {
       Console.WriteLine("\n__________________________________________________");
-      
+
       myPokemon = _service.FindPokemon(virtualPet, myPokemon, VirtualPets);
 
-      myPet = _mapper.Map<PokemonDTO>(myPokemon); 
+      myPet = _mapper.Map<PokemonDTO>(myPokemon);
 
-      _message.PressToContinue();      
+      _message.PressToContinue();
     }
 
     private void MyVirtualPet(string gamer, HashSet<Pokemon> VirtualPets)
     {
-      try
+      bool invalid = true;
+      string option = "0";
+      while (invalid)
       {
-        char option = '0';
-        while (option != 'X')
+        Console.Clear();
+        _message.MyPetMenu(gamer, myPet);
+
+
+        if (myPet.PokemonName == null)
         {
-          Console.Clear();
-          _message.MyPetMenu(gamer, myPet);
-
-          option = Console.ReadLine().ToUpper()[0];
-
-          Console.WriteLine("\n__________________________________________________\n\n");
+          invalid = false;
+          _message.PressToContinue();
+        }
+        else
+        {
+          option = Console.ReadLine().Trim().ToUpper();
 
           switch (option)
           {
-            case '1':
+            case "1":
               _service.StatusMyPokemon(myPet);
               _message.PressToContinue();
               break;
-            case '2':
+            case "2":
               _service.FeedMyPet(myPet);
               _message.PressToContinue();
               break;
-            case '3':
+            case "3":
               _service.PlayMyPet(myPet);
               _message.PressToContinue();
               break;
-            case '4':
+            case "4":
               _service.SleepMyPet(myPet);
               _message.PressToContinue();
               break;
-            case '5':
+            case "5":
+              invalid = false;
               break;
             default:
-              Console.WriteLine("Opção inválida.");
+              _message.InvalidOption();
               break;
           }
+
         }
-      }
-      catch (Exception ex)
-      {
-        throw new Exception($"\nAplicação encerrada incorretamente. {ex.Message}");
+
       }
     }
   }
